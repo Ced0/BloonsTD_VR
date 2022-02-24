@@ -19,11 +19,20 @@ public class CatchThrow : MonoBehaviour
     //Throwing Ball
     private Rigidbody ballRigidbody;
     private bool inHand = false;
+    private List<float> velocityX;
+    private List<float> velocityY;
+    private List<float> velocityZ;
+    private int maxSample;
+    private float sampleTime = 0.1f;
 
     // Start is called before the first frame update
     void Start()
     {
+        maxSample = (int)(sampleTime/0.02);
 
+        velocityX = new List<float>();
+        velocityY = new List<float>();
+        velocityZ = new List<float>();
     }
 
     // Update is called once per frame
@@ -67,12 +76,24 @@ public class CatchThrow : MonoBehaviour
                     ball = null;
                     inHand = false;
                     ballRigidbody.isKinematic = false;
+
+                    //Compute some throw velocity
+                    ballRigidbody.velocity = getVelocityMedian();
                 }
             }
         }
         else if(leftHandDevices.Count > 1)
         {
             Debug.Log("Found more than one left hand!");
+        }
+    }
+
+    //Take measures of the velocity at a regular timing
+    void FixedUpdate()
+    {
+        if(inHand == true)
+        {
+            appendVelocity(ballRigidbody.velocity);
         }
     }
 
@@ -99,6 +120,7 @@ public class CatchThrow : MonoBehaviour
                 collider = ball.GetComponent<SphereCollider>();
                 collider.enabled = false;
                 ballRigidbody = ball.GetComponent<Rigidbody>();
+                ballRigidbody.isKinematic = true;
 
                 callDirection = transform.position - ball.transform.position;
                 initialDistance = callDirection.magnitude;
@@ -141,5 +163,70 @@ public class CatchThrow : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void appendVelocity(Vector3 velocity)
+    {
+        if(velocityX.Count >= maxSample)
+        {
+            popVelocity();
+        }
+
+        velocityX.Add(velocity.x);
+        velocityY.Add(velocity.y);
+        velocityZ.Add(velocity.z);
+    }
+
+    private void popVelocity()
+    {
+        velocityX.RemoveAt(0);
+        velocityY.RemoveAt(0);
+        velocityZ.RemoveAt(0);
+    }
+
+    private Vector3 getVelocityMedian()
+    {
+        Vector3 velocity = new Vector3(0, 0, 0);
+        
+        //Compute somekind weitghted average but without dividing by total weight
+        float x = 0;
+        float y = 0;
+        float z = 0;
+
+        float sum = 0;
+
+        int middle = (int)(velocityX.Count/2) + velocityX.Count%2;
+
+        for(int i = 0; i < velocityX.Count; i++)
+        {
+            //weight = (i/1.3-count/2)² + (count/2)²
+            float weight = -((i/1.3f - middle)*(i/1.3f - middle)) + middle*middle;
+
+            sum += weight;
+
+            x += velocityX[i] * weight;
+            y += velocityY[i] * weight;
+            z += velocityZ[i] * weight;
+        }
+
+        x /= velocityX.Count;
+        y /= velocityY.Count;
+        z /= velocityZ.Count;
+
+        velocity = new Vector3(x, y, z);
+
+        //Average the computed velocity with the median to maybe reduce a little bit the imprecision of the sensors
+        //Probably not usefull
+        velocityX.Sort();
+        velocityY.Sort();
+        velocityZ.Sort();
+
+        velocity = (velocity + new Vector3(velocityX[(int)(velocityX.Count/2)], velocityY[(int)(velocityX.Count/2)], velocityZ[(int)(velocityX.Count/2)]))/2;
+
+        velocityX.Clear();
+        velocityY.Clear();
+        velocityZ.Clear();
+
+        return velocity;
     }
 }
