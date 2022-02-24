@@ -72,6 +72,8 @@ public class CatchThrow : MonoBehaviour
                 }
                 else if(inHand == true)//if we are thowring/dropping the ball
                 {
+                    ball.GetComponent<BallExplosion>().hasExploded = false;
+
                     collider.enabled = true;
                     ball = null;
                     inHand = false;
@@ -79,6 +81,8 @@ public class CatchThrow : MonoBehaviour
 
                     //Compute some throw velocity
                     ballRigidbody.velocity = getVelocityMedian();
+
+
                 }
             }
         }
