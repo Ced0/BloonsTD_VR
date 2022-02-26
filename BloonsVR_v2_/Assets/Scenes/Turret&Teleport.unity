@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyProj: {fileID: 160399702}
-  bodyCollider: {fileID: 1026576721}
+  bodyCollider: {fileID: 0}
   hand: left
   laser: {fileID: 1734661422}
   laserStart: {fileID: 1479562945}
@@ -702,7 +702,6 @@ GameObject:
   - component: {fileID: 1026576719}
   - component: {fileID: 1026576718}
   - component: {fileID: 1026576720}
-  - component: {fileID: 1026576721}
   m_Layer: 3
   m_Name: XRRig
   m_TagString: Untagged
@@ -760,20 +759,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 3
---- !u!136 &1026576721
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026576717}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1263383216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1010,7 @@ GameObject:
   - component: {fileID: 1559188338}
   - component: {fileID: 1559188337}
   - component: {fileID: 1559188336}
+  - component: {fileID: 1559188340}
   m_Layer: 3
   m_Name: Camera
   m_TagString: MainCamera
@@ -1127,6 +1113,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!136 &1559188340
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559188334}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &1713433685
 GameObject:
   m_ObjectHideFlags: 0
