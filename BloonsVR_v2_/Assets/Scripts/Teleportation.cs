@@ -124,8 +124,8 @@ public class Teleportation : MonoBehaviour
                     laser.SetActive(true);
                     bodyProj.gameObject.SetActive(true);
 
-                    teleportPoint = collisionPoint + collisionAvoider;
-                    bodyProj.position = collisionPoint + collisionAvoider + new Vector3(0, 0.5f, 0);
+                    teleportPoint = collisionPoint + collisionAvoider;// + new Vector3(0, 0.5f, 0);
+                    bodyProj.position = collisionPoint + collisionAvoider;// + new Vector3(0, 0.5f, 0);
 
                     //Adjust the start position of the laser to match the scale
                     laser.transform.localPosition = new Vector3(0, 0, laser.transform.localScale.y-1);
