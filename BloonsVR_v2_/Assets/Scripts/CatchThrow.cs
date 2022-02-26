@@ -7,6 +7,7 @@ public class CatchThrow : MonoBehaviour
 {
     //Common
     private GameObject ball;
+    BallController ballController;
 
     //Calling Ball 
     public Transform ballContainer;
@@ -69,10 +70,13 @@ public class CatchThrow : MonoBehaviour
                     collider.enabled = true;
                     ball = null;
                     ballRigidbody.velocity = new Vector3(0, 0, 0);
+
+                    ballController.isPulled = false;
                 }
                 else if(inHand == true)//if we are thowring/dropping the ball
                 {
-                    ball.GetComponent<BallExplosion>().hasExploded = false;
+                    ballController.hasExploded = false;
+                    ballController.isPulled = false;
 
                     collider.enabled = true;
                     ball = null;
@@ -129,6 +133,11 @@ public class CatchThrow : MonoBehaviour
                 callDirection = transform.position - ball.transform.position;
                 initialDistance = callDirection.magnitude;
                 callDirection = callDirection.normalized;
+
+                ballController = ball.GetComponent<BallController>();
+                ballController.hasExploded = true;
+                ballController.enemyLocked = null;
+                ballController.isPulled = true;
 
                 found = true;
             }

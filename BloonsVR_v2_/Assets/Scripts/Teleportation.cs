@@ -75,9 +75,9 @@ public class Teleportation : MonoBehaviour
 
                     }else{//If there was no collision so use max teleport range
                         collisionPoint = teleportMaxDist * laserStart.forward + laserStart.position;
-
+                        
                         floorDetection(ref collisionPoint);
-
+                        
                         laser.transform.localScale = new Vector3(laser.transform.localScale.x, teleportMaxDist*3 + 1, laser.transform.localScale.z);
                     }
 
@@ -86,7 +86,7 @@ public class Teleportation : MonoBehaviour
 
                     //Needs a dummy direction different than zero to detect initial collision
                     RaycastHit[] allHits = Physics.CapsuleCastAll(collisionPoint + new Vector3(0, bodyCollider.radius, 0), collisionPoint + new Vector3(0, bodyCollider.height-bodyCollider.radius, 0),
-                    bodyCollider.radius, new Vector3(0, 1, 0), 0f, layerMask);
+                    bodyCollider.radius, new Vector3(0, 0.0001f, 0), 0f, layerMask);
 
                     Vector3 collisionAvoider = Vector3.zero;
 
@@ -176,7 +176,7 @@ public class Teleportation : MonoBehaviour
         int layerMask = 1 << 8;//Floor layer
         RaycastHit hit;
 
-        if (Physics.Raycast(collisionPoint, -Vector3.up, out hit, teleportMaxDist, layerMask))
+        if (Physics.Raycast(collisionPoint, -Vector3.up, out hit, 1000, layerMask))
         {
             collisionPoint = hit.point;
         }

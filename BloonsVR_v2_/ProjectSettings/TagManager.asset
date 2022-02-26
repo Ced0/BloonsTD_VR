@@ -8,6 +8,7 @@ TagManager:
   - vibration
   - rightHand
   - floor
+  - enemy
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Floor
   - Vibration
   - Ball
-  - 
+  - Enemy
   - 
   - 
   - 

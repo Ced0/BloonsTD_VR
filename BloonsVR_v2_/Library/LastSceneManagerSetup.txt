@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/CatchThrow.unity
+- path: Assets/Scenes/Turret&Teleport.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
